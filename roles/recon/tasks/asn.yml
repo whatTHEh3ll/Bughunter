@@ -1,0 +1,12 @@
+---
+- block:
+
+  - name: 'asn : copy asn bash script to home directory'
+    copy: 
+      src: "asn.sh" # the file is present on the same directory
+      dest: "/home/{{ user_name }}"
+      mode: '0755'
+
+  tags:
+    - recon
+    - asn 

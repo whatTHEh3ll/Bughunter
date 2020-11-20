@@ -1,0 +1,21 @@
+---
+- block:
+
+  - name: 'katana : Checkout Katana Git repository'
+    git: 
+      repo: https://github.com/adnane-X-tebbaa/Katana.git
+      dest: /home/{{ user_name }}/Katana
+
+  - name: 'katana : Install Katana'
+    shell: python3 -m pip install -r requirements.txt
+    args:
+      chdir: /home/{{ user_name }}/Katana
+
+  - name: 'katana : Install Katana'
+    shell: python3 kds.py
+    args:
+      chdir: /home/{{ user_name }}/Katana
+
+  tags:
+    - recon
+    - katana 

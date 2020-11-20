@@ -1,0 +1,40 @@
+---
+- block:
+  
+  - name: 'findomain : download findomain'
+    git:
+      repo: https://github.com/Edu4rdSHL/findomain.git
+      dest: /home/{{ user_name }}/findomain
+
+  - name: 'findomain : Recursively change ownership of a directory'
+    become: yes 
+    file:
+      path: /home/{{ user_name }}/findomain
+      state: directory
+      recurse: yes
+      owner: "{{ user_name }}"
+      group: "{{ user_name }}"
+
+  - name: 'findomain : install findomain'
+    become: yes
+    become_user: "{{ user_name }}"
+    shell: '/bin/bash -lc "cargo build --release"'
+    register: command_result
+    args:
+      chdir: /home/{{ user_name }}/findomain
+
+  - name: 'findomain : copy target/release/findomain to /usr/bin/'
+    become: yes
+    copy:
+      src: /home/{{ user_name }}/findomain/target/release/findomain
+      dest: /usr/bin/
+      remote_src: yes
+      force: yes
+      owner: "{{ user_name }}"
+      group: "{{ user_name }}"
+      mode: 0755
+  
+  tags: 
+    - recon
+    - findomain
+    

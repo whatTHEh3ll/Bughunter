@@ -1,0 +1,32 @@
+---
+- block:
+
+  - name: 'cewl : checkout cewl repository'
+    git:
+      repo:  https://github.com/digininja/CeWL.git
+      dest: /home/{{ user_name }}/CeWL
+     
+  - name: 'cewl : Install libimage-exiftool-perl'
+    apt:
+      update_cache: yes
+      name: libimage-exiftool-perl
+
+  - name: 'cewl : update bundler'
+    shell: '/bin/bash -lc "bundle update --bundler"'
+    args:
+      chdir: /home/{{ user_name }}/CeWL
+    register: shell_output
+
+  - debug: msg={{ shell_output.stdout }}
+
+  - name: 'cewl : bundle install'
+    shell: '/bin/bash -lc "bundle update --bundler"'
+    args:
+      chdir: /home/{{ user_name }}/CeWL
+    register: shell_output
+
+  - debug: msg={{ shell_output.stdout }}
+   
+  tags:
+    - recon
+    - cewl

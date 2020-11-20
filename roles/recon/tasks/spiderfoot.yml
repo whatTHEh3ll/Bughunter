@@ -1,0 +1,20 @@
+---
+- block:
+
+  - name: 'spiderfoot: checkout spiderfoot repo'
+    git:
+      repo: https://github.com/smicallef/spiderfoot.git
+      dest: /home/{{ user_name }}/spiderfoot
+
+  - name: 'spiderfoot : build spiderfoot docker image'
+    shell: docker build -t spidefoot .
+    register: spiderfoot
+    args:
+      chdir: /home/{{ user_name }}/spiderfoot
+
+  - debug:
+      msg: building {{ spiderfoot.stdout }}
+
+  tags: 
+    - recon
+    - spiderfoot 

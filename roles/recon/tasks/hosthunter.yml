@@ -1,0 +1,21 @@
+---
+- block:
+
+  - name: 'hosthunter : Checkout hosthunter Git repository'
+    git: 
+      repo: https://github.com/SpiderLabs/HostHunter.git
+      dest: /home/{{ user_name }}/HostHunter
+
+  - name: 'hostHunter : create virtual enviroment for Hosthunter'
+    shell: python3 -m venv .HostHunter
+    args:
+      chdir: /home/{{ user_name }}/HostHunter
+          
+  - name: 'hostHunter : activate virtual enviroment for HostHunter and install requirements'
+    shell: /bin/bash -ic 'source .HostHunter/bin/activate; pip3 install -r requirements.txt'
+    args:
+      chdir: /home/{{ user_name }}/HostHunter
+
+  tags:
+    - recon
+    - hosthunter 

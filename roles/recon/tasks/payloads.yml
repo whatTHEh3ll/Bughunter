@@ -1,0 +1,22 @@
+---
+
+- block:
+
+  - name: 'payloads : download fuzzdb'
+    git:
+      repo: https://github.com/fuzzdb-project/fuzzdb.git
+      dest: /home/{{ user_name }}/fuzzdb
+
+  - name: 'payloads : download SecList'
+    git:
+      repo: https://github.com/danielmiessler/SecLists.git
+      dest: /home/{{ user_name }}/SecLists
+
+  - name: 'payloads : download PayloadsAllTheThings'
+    git:
+      repo: https://github.com/swisskyrepo/PayloadsAllTheThings.git
+      dest: /home/{{ user_name }}/PayloadsAllTheThings
+
+  tags:
+    - recon
+    - payloads  

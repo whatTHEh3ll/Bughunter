@@ -1,0 +1,34 @@
+---
+
+- block:
+
+  - name: 'puredns : install python3-dnspython and pv'
+    become: true
+    apt:
+      name:
+        - python3-dnspython
+        - pv 
+
+  - name: 'puredns : Checkout secretfinder Git repository'
+    git: 
+      repo: https://github.com/d3mondev/puredns.git
+      dest: /home/{{ user_name }}/puredns
+
+  - name: 'puredns : create virtual enviroment for puredns'
+    shell: python3 -m venv .puredns
+    args:
+      chdir: /home/{{ user_name }}/puredns
+              
+  - name: 'puredns : activate virtual enviroment for puredns and install requirements'
+    shell: /bin/bash -ic 'source .puredns/bin/activate; pip3 install wheel'
+    args:
+      chdir: /home/{{ user_name }}/puredns
+
+  - name: 'puredns : activate virtual enviroment for puredns and install requirements'
+    shell: /bin/bash -ic 'source .puredns/bin/activate; pip3 install -r requirements.txt'
+    args:
+      chdir: /home/{{ user_name }}/puredns
+
+  tags:
+    - recon
+    - puredns

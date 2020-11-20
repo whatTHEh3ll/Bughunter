@@ -1,0 +1,19 @@
+---
+- block: 
+
+  - name: 'cewl : download cewl repository'
+    git:
+      repo: https://github.com/digininja/CeWL.git
+      dest: /home/{{ user_name }}/CeWL 
+
+  - name: 'cewl : build docker image'
+    shell: docker build -t cewl .
+    args:
+      chdir: /home/{{ user_name }}/CeWL 
+    register: shell_output
+
+  - debug: msg={{ shell_output.stdout }}
+
+  tags:
+    - web 
+    - cewl

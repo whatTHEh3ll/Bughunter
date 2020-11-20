@@ -1,0 +1,17 @@
+---
+- block:
+
+  - name: 'interlace : checkout interlace'
+    git:
+      repo: https://github.com/codingo/Interlace.git
+      dest: /home/{{ user_name }}/Interlace
+
+  - name: 'interlace : Install Interlace'
+    become: yes
+    shell: python3 setup.py install
+    args:
+      chdir: /home/{{ user_name }}/Interlace
+
+  tags:
+    - recon
+    - interlace 

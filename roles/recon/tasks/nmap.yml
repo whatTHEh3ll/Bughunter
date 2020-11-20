@@ -1,0 +1,20 @@
+---
+- block:
+
+  - name: 'nmap : install nmap and xsltproc'
+    become: true
+    apt:
+     name: 
+       - nmap 
+       - xsltproc
+
+  - name: 'nmap : download vulner nmap script'
+    become: yes
+    get_url:
+        url: https://raw.githubusercontent.com/vulnersCom/nmap-vulners/master/vulners.nse
+        dest: /usr/share/nmap/scripts
+
+  tags:
+    - recon
+    - nmap 
+

@@ -1,0 +1,45 @@
+---
+- block:
+
+  - name: 'ruby : add rvm repository'
+    apt_repository:
+      repo: 'ppa:rael-gc/rvm'
+      state: present
+      update_cache: yes
+
+  - name: 'ruby : install rvm'
+    apt:
+      name: rvm
+      state: present
+
+  - name: 'ruby : install default ruby'
+    shell: /bin/bash -lc "rvm install ruby"
+    register: shell_output
+  
+  - debug: 
+      msg: '{{ shell_output.stdout }}'
+
+  - name: 'ruby : source profile for rvm install'
+    become: yes
+    become_user: "{{ user_name }}"
+    shell: /bin/bash -ic echo 'source /etc/profile.d/rvm.sh >> /home/{{ user_name | quote }}/.bashrc'
+    register: profile
+
+  - debug:
+      msg: '{{ profile.stdout }}'
+
+  - name: 'ruby : reboot machine to source rvm install'
+    reboot:
+      reboot_timeout: 300
+
+  - name: 'ruby : check uptime after reboot'
+    shell: uptime
+    register: UPTIME_POST_REBOOT
+
+  - debug: 
+      msg: '{{UPTIME_POST_REBOOT.stdout}}'
+
+  tags:
+    - common
+    - ruby
+    

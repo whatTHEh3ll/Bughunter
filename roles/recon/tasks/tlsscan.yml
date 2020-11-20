@@ -1,0 +1,27 @@
+---
+- block:
+
+  - name: 'tlsscan : install dependencies'
+    apt:
+      name:
+        - autoconf
+        - automake
+        - libtool
+        - pkg-config
+        - gcc
+      state: present
+      update_cache: yes
+
+  - name: 'tlsscan : Checkout tls-scan repo'
+    git:
+      repo:  https://github.com/prbinu/tls-scan.git
+      dest: /home/{{ user_name }}/tls-scan 
+
+  - name: 'tlsscan : install tls-scan'
+    shell: ./build-x86-64.sh
+    args:
+      chdir: /home/{{ user_name }}/tls-scan 
+
+  tags:
+    - recon
+    - tlsscan

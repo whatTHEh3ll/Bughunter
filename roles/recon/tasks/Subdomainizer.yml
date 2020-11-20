@@ -1,0 +1,27 @@
+---
+
+- block:
+
+  - name: 'SubDomainizer : Checkout SubDomainizer Git repository'
+    git: 
+      repo: https://github.com/nsonaniya2010/SubDomainizer.git
+      dest: /home/{{ user_name }}/SubDomainizer
+    
+  - name: 'SubDomainizer : create virtual enviroment for SubDomainizer'
+    shell: python3 -m venv .SubDomainizer
+    args:
+      chdir: /home/{{ user_name }}/SubDomainizer
+
+  - name: 'SubDomainizer : activate virtual enviroment for SubDomainizer and install wheel python library'
+    shell: /bin/bash -ic 'source .SubDomainizer/bin/activate; pip3 install wheel'
+    args:
+      chdir: /home/{{ user_name }}/SubDomainizer
+            
+  - name: 'SubDomainizer : activate virtual enviroment for SubDomainizer and install requirements'
+    shell: /bin/bash -ic 'source .SubDomainizer/bin/activate; pip3 install -r requirements.txt'
+    args:
+      chdir: /home/{{ user_name }}/SubDomainizer
+    
+   tags:
+     - recon
+     - SubDomainizer

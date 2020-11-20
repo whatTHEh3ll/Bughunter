@@ -1,0 +1,13 @@
+---
+- block:
+
+  - name: 'pythonTools : install pip3 packages'
+    pip:
+      name: jsbeautifier
+      executable: pip3
+
+  tags:
+    - recon
+    - pip
+
+          

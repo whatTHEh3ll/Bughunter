@@ -1,0 +1,17 @@
+---
+- block:
+
+  - name: 'eyewitness : clone EyeWitness'
+    git:
+      repo: https://github.com/FortyNorthSecurity/EyeWitness.git
+      dest: /home/{{ user_name }}/EyeWitness
+    
+  - name: 'eyewitness : install eyewitness'
+    shell: ./setup.sh
+    args:
+      chdir: /home/{{ user_name }}/EyeWitness/Python/setup
+
+  tags:
+    - recon
+    - eyewitness
+

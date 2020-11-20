@@ -1,0 +1,32 @@
+---
+- block:
+
+  - name: 'wfuzz : install libcurl4-openssl-dev'
+    become: true
+    apt:
+      name:
+        - libcurl4-openssl-dev
+        
+  - name: 'wfuzz : Checkout secretfinder Git repository'
+    git: 
+      repo: https://github.com/xmendez/wfuzz.git
+      dest: /home/{{ user_name }}/wfuzz
+
+  - name: 'wfuzz : create virtual enviroment for wfuzz'
+    shell: python3 -m venv .wfuzz
+    args:
+      chdir: /home/{{ user_name }}/wfuzz
+              
+  - name: 'wfuzz : activate virtual enviroment for wfuzz and install requirements'
+    shell: /bin/bash -ic 'source .wfuzz/bin/activate; pip3 install wheel'
+    args:
+      chdir: /home/{{ user_name }}/wfuzz
+
+  - name: 'wfuzz : activate virtual enviroment for wfuzz and install requirements'
+    shell: /bin/bash -ic 'source .wfuzz/bin/activate; python3 setup.py install'
+    args:
+      chdir: /home/{{ user_name }}/wfuzz
+
+  tags:
+    - web
+    - wfuzz

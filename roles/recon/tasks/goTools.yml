@@ -1,0 +1,22 @@
+---
+- block:
+
+  - name: 'golang : copy goTools into home directory'
+    become: yes
+    become_user: "{{ user_name }}"
+    copy: 
+      src: "go-tools.sh" 
+      dest: "/home/{{ user_name }}"
+      mode: '0755'
+
+  - name: 'golang : execute goTools script as {{ user_name }}'
+    become: yes
+    become_user: "{{ user_name }}"
+    shell: ./go-tools.sh  
+    args:
+      chdir: "/home/{{ user_name }}"
+    register: shell_output
+
+  tags:
+    - recon
+    - goTools

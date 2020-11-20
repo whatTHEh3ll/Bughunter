@@ -1,0 +1,36 @@
+---
+- block:
+
+  - name: 'massdns : Checkout massdns repository'
+    git:
+      repo: https://github.com/blechschmidt/massdns.git
+      dest: /home/{{user_name}}/massdns  
+
+  - name: 'massdns : install massdns'
+    become: yes
+    shell: make && make install
+    args: 
+      chdir: /home/{{user_name}}/massdns 
+      executable: /bin/bash
+    register: command_output
+
+  - debug: msg={{ command_output.stdout }}
+
+  - name: 'massdns : download commonspeak wordlist'
+    get_url:
+      url: https://raw.githubusercontent.com/assetnote/commonspeak2-wordlists/master/subdomains/subdomains.txt
+      dest: /home/{{ user_name }}/massdns 
+
+  - name: 'massdns : download all wordlist'
+    get_url:
+      url: https://gist.githubusercontent.com/jhaddix/86a06c5dc309d08580a018c66354a056/raw/96f4e51d96b2203f19f6381c8c545b278eaa0837/all.txt 
+      dest: /home/{{ user_name }}/massdns
+
+  - name: 'massdns : download seclist-top1million-20000 wordlist'
+    get_url:
+      url: https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/subdomains-top1million-20000.txt
+      dest: /home/{{ user_name }}/massdns
+
+  tags:
+    - recon
+    - massdns  

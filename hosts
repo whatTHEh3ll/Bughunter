@@ -1,0 +1,5 @@
+[do]
+161.35.103.109
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3

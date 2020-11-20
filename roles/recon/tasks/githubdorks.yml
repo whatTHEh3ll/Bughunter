@@ -1,0 +1,16 @@
+- block:
+
+  - name: 'githubdorks : Checkout github-dorks Git repository'
+    git:
+      repo:  https://github.com/techgaun/github-dorks.git
+      dest: /home/{{ user_name }}/github-dorks
+
+  - name: 'githubdorks : Install github-dorks'
+    pip:
+      requirements: requirements.txt
+      chdir: /home/{{ user_name }}/github-dorks
+      executable: pip3
+
+  tags:
+    - recon
+    - githubdorks

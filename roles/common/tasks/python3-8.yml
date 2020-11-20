@@ -1,0 +1,23 @@
+---
+- block:
+
+  - name: 'python3-8 : install software-properties-common for python 3.8'
+    apt:
+      update_cache: yes
+      name: software-properties-common
+
+  - name: 'python3-8 : add deadsnakes ppa'
+    apt_repository:
+      repo: 'ppa:deadsnakes/ppa'
+      state: present
+      update_cache: yes
+
+  - name: 'python3-8 : install python 3.8 with apt'
+    apt:
+      update_cache: yes
+      name: python3.8
+
+  tags:
+    - common
+    - python3-8
+    

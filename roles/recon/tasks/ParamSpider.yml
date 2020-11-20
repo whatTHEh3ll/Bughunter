@@ -1,0 +1,22 @@
+---
+- block:
+
+  - name: 'PararmSpider : Checkout ParamSpider Git repository'
+    git: 
+      repo: https://github.com/devanshbatham/ParamSpider.git
+      dest: /home/{{ user_name }}/ParamSpider
+
+  - name: 'ParamSpider : create virtual enviroment for Paramspider'
+    shell: python3 -m venv .ParamSpider
+    args:
+      chdir: /home/{{ user_name }}/ParamSpider
+            
+  - name: 'ParamSpider : activate virtual enviroment for ParamSpider and install requirements'
+    shell: /bin/bash -ic 'source .ParamSpider/bin/activate; pip3 install -r requirements.txt'
+    args:
+      chdir: /home/{{ user_name }}/ParamSpider
+
+  tags:
+    - recon
+    - ParamSpider  
+  
