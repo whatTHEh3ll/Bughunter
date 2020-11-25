@@ -22,11 +22,6 @@
     args:
       chdir: /home/{{ user_name }}/FavFreak
             
-  - name: 'FavFreak : activate virtual enviroment for FavFreak and install requirements'
-    shell: /bin/bash -ic 'source .FavFreak/bin/activate; pip3 install -r requirements.txt'
-    args:
-        chdir: /home/{{ user_name }}/FavFreak
-    
     tags:
         - recon
         - FavFreak

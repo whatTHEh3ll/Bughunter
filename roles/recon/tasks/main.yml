@@ -26,7 +26,10 @@
 - include: dnsgen.yml tags=recon,dnsgen
 - include: payloads.yml tags=recon,payloads
 - include: FavFreak.yml tags=recon,FavFreak
-
+- include: gf.yml tags=recon,gf
+- include: metabigor.yml tags=recon,metabigor
+- include: httprobe.yml tags=recon,httprobe 
+- include: assetfinder.yml tags=recon,assetfinder
 
 
 

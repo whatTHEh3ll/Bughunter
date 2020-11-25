@@ -1,0 +1,25 @@
+---
+- block:
+
+  - name: 'gf : install gf with go get -u github.com/tomnomnom/gf'
+    become: yes
+    become_user: "{{ user_name }}"
+    shell: /home/{{ user_name | quote }}/.go/bin/go get -u github.com/tomnomnom/gf
+    args:
+      chdir: /home/{{ user_name }}/
+
+  - name: 'gf : add bash alias fo gf'
+    become: yes
+    become_user: "{{ user_name }}"
+    lineinfile: 
+      path: /home/{{ user_name }}/.bashrc
+      line: alias gf='/home/{{ user_name }}/go/bin/gf'
+
+  - name: 'gf : source bash for bash alias'
+    become: yes
+    become_user: "{{ user_name }}"
+    shell: /bin/bash -ic 'source /home/{{ user_name | quote }}/.bashrc'
+
+  tags:
+    - recon
+    - gf

@@ -27,6 +27,6 @@
     args:
       chdir: /home/{{ user_name }}/dnsgen
     
-   tags:
-     - recon
-     - dnsgen
+  tags:
+    - recon
+    - dnsgen

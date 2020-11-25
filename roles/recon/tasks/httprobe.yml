@@ -1,0 +1,25 @@
+---
+- block:
+
+  - name: 'httprobe : install httprobe with go get -u github.com/tomnomnom/httprobe'
+    become: yes
+    become_user: "{{ user_name }}"
+    shell: /home/{{ user_name }}/.go/bin/go get -u github.com/tomnomnom/httprobe
+    args:
+        chdir: /home/{{ user_name }}/
+
+  - name: 'httprobe : add bash alias for httprobe'
+    become: yes
+    become_user: "{{ user_name }}"
+    lineinfile: 
+        path: /home/{{ user_name }}/.bashrc
+        line: alias httprobe='/home/{{ user_name }}/go/bin/httprobe'
+
+  - name: 'httprobe : source bash for bash alias'
+    become: yes
+    become_user: "{{ user_name }}"
+    shell: /bin/bash -ic 'source /home/{{ user_name | quote }}/.bashrc'
+
+  tags:
+    - recon
+    - httprobe

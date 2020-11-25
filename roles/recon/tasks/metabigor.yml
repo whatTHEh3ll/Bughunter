@@ -1,0 +1,25 @@
+---
+- block:
+
+  - name: 'metabigor : install metabigor with go get -u github.com/j3ssie/metabigor'
+    become: yes
+    become_user: "{{ user_name }}"
+    shell: /home/{{ user_name | quote }}/.go/bin/go get -u github.com/j3ssie/metabigor
+    args:
+      chdir: /home/{{ user_name }}/
+
+  - name: 'metabigor : add bash alias fo metabigor'
+    become: yes
+    become_user: "{{ user_name }}"
+    lineinfile: 
+      path: /home/{{ user_name }}/.bashrc
+      line: alias metabigor='/home/{{ user_name }}/go/bin/metabigor'
+
+  - name: 'metabigor : source bash for bash alias'
+    become: yes
+    become_user: "{{ user_name }}"
+    shell: /bin/bash -ic 'source /home/{{ user_name | quote }}/.bashrc'
+   
+  tags:
+    - recon
+    - metabigor  
