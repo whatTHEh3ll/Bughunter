@@ -30,6 +30,7 @@
 - include: metabigor.yml tags=recon,metabigor
 - include: httprobe.yml tags=recon,httprobe 
 - include: assetfinder.yml tags=recon,assetfinder
+#- include: gobuster.yml tags=recon,gobuster
 
 
 

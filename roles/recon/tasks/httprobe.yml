@@ -4,7 +4,7 @@
   - name: 'httprobe : install httprobe with go get -u github.com/tomnomnom/httprobe'
     become: yes
     become_user: "{{ user_name }}"
-    shell: /home/{{ user_name }}/.go/bin/go get -u github.com/tomnomnom/httprobe
+    shell: go get -u github.com/tomnomnom/httprobe
     args:
         chdir: /home/{{ user_name }}/
 

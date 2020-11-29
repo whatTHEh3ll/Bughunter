@@ -1,22 +1,29 @@
 ---
 - block:
 
-  - name: 'golang : copy goTools into home directory'
+  - name: clone golang software into /home/{{ user_name }}/
     become: yes
     become_user: "{{ user_name }}"
-    copy: 
-      src: "go-tools.sh" 
-      dest: "/home/{{ user_name }}"
-      mode: '0755'
+    git: 
+      repo: 'https://{{ item.repo }}.git'
+      dest: '/home/{{ user_name }}/{{ item.dest }}'
+    with_items:
+      - { repo: 'github.com/OJ/gobuster', dest: 'gobuster'}
+      - { repo: 'github.com/mhmdiaa/waybackunifier', dest: 'waybackunifier'}
+      - { repo: 'github.com/tomnomnom/httprobe', dest: 'httprobe'}
+      - { repo: 'github.com/haccer/subjack', dest: 'subjack'}
+      - { repo: 'github.com/lc/secretz', dest: 'secretz'}
+      - { repo: 'github.com/tomnomnom/meg', dest: 'meg'}
+      - { repo: 'github.com/tomnomnom/qsreplace', dest: 'qsreplace'}
+      - { repo: 'github.com/j3ssie/metabigor', dest: 'metabigor'}
+      - { repo: 'github.com/hakluke/hakrawler', dest: 'hakrawler'}
+      - { repo: 'github.com/tomnomnom/assetfinder', dest: 'assetfinder'}
+      - { repo: 'github.com/projectdiscovery/shuffledns', dest: 'shuffledns'}
+      - { repo: 'github.com/ffuf/ffuf', dest: 'ffuf'}
+      - { repo: 'github.com/tomnomnom/gf', dest: 'gf'}
+      - { repo: 'github.com/projectdiscovery/httpx', dest: 'httpx'}
+      - { repo: 'github.com/projectdiscovery/nuclei', dest: 'nuclei'}
 
-  - name: 'golang : execute goTools script as {{ user_name }}'
-    become: yes
-    become_user: "{{ user_name }}"
-    shell: ./go-tools.sh  
-    args:
-      chdir: "/home/{{ user_name }}"
-    register: shell_output
-
-  tags:
+    tags:
     - recon
     - goTools

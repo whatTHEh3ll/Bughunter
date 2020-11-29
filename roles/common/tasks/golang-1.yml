@@ -1,0 +1,45 @@
+---
+- block:
+
+  - name: 'golang : download golang 1.15.5 archive'
+    get_url:
+      url: https://golang.org/dl/go1.15.5.linux-amd64.tar.gz
+      dest: /home/{{ user_name }}/golang.tar.gz
+      checksum: sha256:9a58494e8da722c3aef248c9227b0e9c528c7318309827780f16220998180a0d
+
+  - name: 'golang : extract archive'
+    unarchive:
+      dest: /usr/local
+      remote_src: yes
+      src: /home/{{ user_name }}/golang.tar.gz
+
+  - name: 'golang : add golang directory to $PATH'
+    lineinfile:
+      insertafter: EOF
+      line: export PATH=$PATH:/usr/local/go/bin
+      path: /etc/profile
+      state: present
+  
+  - name: 'golang : setup $GOPATH'
+    lineinfile:
+      insertafter: EOF
+      line: export GOPATH=/root/.go
+      path: /etc/profile
+      state: present
+   
+  - name: 'golang : setup $GOBIN'
+    lineinfile:
+      insertafter: EOF
+      line: export GOBIN=$GOPATH/bin
+      path: /etc/profile
+      state: present
+  
+  - name: 'golang : cleanup fragments'
+    file:
+      dest: /home/{{ user_name }}/golang.tar.gz
+      state: absent
+
+  tags:
+    - common
+    - golang
+   

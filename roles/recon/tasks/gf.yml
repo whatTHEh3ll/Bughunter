@@ -4,7 +4,7 @@
   - name: 'gf : install gf with go get -u github.com/tomnomnom/gf'
     become: yes
     become_user: "{{ user_name }}"
-    shell: /home/{{ user_name | quote }}/.go/bin/go get -u github.com/tomnomnom/gf
+    shell: go get -u github.com/tomnomnom/gf
     args:
       chdir: /home/{{ user_name }}/
 
