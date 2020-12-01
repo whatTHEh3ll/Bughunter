@@ -1,29 +1,87 @@
 ---
 - block:
 
-  - name: clone golang software into /home/{{ user_name }}/
+  - name: 'goTools : install golang tools with /usr/local/go/bin/go get'
     become: yes
     become_user: "{{ user_name }}"
-    git: 
-      repo: 'https://{{ item.repo }}.git'
-      dest: '/home/{{ user_name }}/{{ item.dest }}'
+    shell: /usr/local/go/bin/{{ item }}
+    args:
+      chdir: /home/{{ user_name }}
     with_items:
-      - { repo: 'github.com/OJ/gobuster', dest: 'gobuster'}
-      - { repo: 'github.com/mhmdiaa/waybackunifier', dest: 'waybackunifier'}
-      - { repo: 'github.com/tomnomnom/httprobe', dest: 'httprobe'}
-      - { repo: 'github.com/haccer/subjack', dest: 'subjack'}
-      - { repo: 'github.com/lc/secretz', dest: 'secretz'}
-      - { repo: 'github.com/tomnomnom/meg', dest: 'meg'}
-      - { repo: 'github.com/tomnomnom/qsreplace', dest: 'qsreplace'}
-      - { repo: 'github.com/j3ssie/metabigor', dest: 'metabigor'}
-      - { repo: 'github.com/hakluke/hakrawler', dest: 'hakrawler'}
-      - { repo: 'github.com/tomnomnom/assetfinder', dest: 'assetfinder'}
-      - { repo: 'github.com/projectdiscovery/shuffledns', dest: 'shuffledns'}
-      - { repo: 'github.com/ffuf/ffuf', dest: 'ffuf'}
-      - { repo: 'github.com/tomnomnom/gf', dest: 'gf'}
-      - { repo: 'github.com/projectdiscovery/httpx', dest: 'httpx'}
-      - { repo: 'github.com/projectdiscovery/nuclei', dest: 'nuclei'}
+      - "go get -u github.com/hakluke/hakrawler"
+      - "go get -u github.com/hakluke/hakrevdns"
+      - "go get -u github.com/haccer/subjack"
+      - "go get -u github.com/OJ/gobuster"
+      - "go get -u github.com/tomnomnom/httprobe"
+      - "go get -u github.com/mhmdiaa/waybackunifier"
+      - "go get -u github.com/lc/secretz"
+      - "go get -u github.com/tomnomnom/meg"
+      - "go get -u -v github.com/lc/gau"
+      - "go get -u github.com/ffuf/ffuf"
+      - "go get -u github.com/tomnomnom/assetfinder"
+      - "go get -u github.com/tomnomnom/gf"
 
-    tags:
+  - name: 'goTools : copy golang tools to /usr/local/bin and make executable'
+    become: true
+    copy:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      owner: "{{ user_name }}"
+      group: "{{ user_name }}"
+      mode: '0755'
+      remote_src: true
+    loop:
+      - {src: '/home/{{ user_name }}/go/bin/hakrawler', dest: '/usr/local/bin'}
+      - {src: '/home/{{ user_name }}/go/bin/hakrevdns', dest: '/usr/local/bin'}
+      - {src: '/home/{{ user_name }}/go/bin/subjack', dest: '/usr/local/bin'}
+      - {src: '/home/{{ user_name }}/go/bin/gobuster', dest: '/usr/local/bin'}
+      - {src: '/home/{{ user_name }}/go/bin/httprobe', dest: '/usr/local/bin'}
+      - {src: '/home/{{ user_name }}/go/bin/waybackunifier', dest: '/usr/local/bin'}
+      - {src: '/home/{{ user_name }}/go/bin/secretz', dest: '/usr/local/bin'}
+      - {src: '/home/{{ user_name }}/go/bin/meg', dest: '/usr/local/bin'}
+      - {src: '/home/{{ user_name }}/go/bin/gau', dest: '/usr/local/bin'}
+      - {src: '/home/{{ user_name }}/go/bin/ffuf', dest: '/usr/local/bin'}
+      - {src: '/home/{{ user_name }}/go/bin/assetfinder', dest: '/usr/local/bin'}
+      - {src: '/home/{{ user_name }}/go/bin/gf', dest: '/usr/local/bin'}
+
+
+  - name: 'goTools :install golang tools that use GO111MODULE'
+    become: yes
+    become_user: "{{ user_name }}"
+    shell: '{{ item }}'
+    args:
+      chdir: /home/{{ user_name }}
+    with_items:
+      - GO111MODULE=on /usr/local/go/bin/go get -u -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei
+      - GO111MODULE=on /usr/local/go/bin/go get -u -v github.com/projectdiscovery/httpx/cmd/httpx
+      - GO111MODULE=on /usr/local/go/bin/go get -u -v github.com/projectdiscovery/shuffledns/cmd/shuffledns
+
+  - name: 'goTools : copy golang tools that use GO111MODULE to /usr/local/bin and make executable'
+    become: true
+    copy:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      owner: "{{ user_name }}"
+      group: "{{ user_name }}"
+      mode: '0755'
+      remote_src: true
+    loop:
+      - {src: '/home/{{ user_name }}/go/bin/shuffledns', dest: '/usr/local/bin'}
+      - {src: '/home/{{ user_name }}/go/bin/nuclei', dest: '/usr/local/bin'}
+      - {src: '/home/{{ user_name }}/go/bin/httpx', dest: '/usr/local/bin'}
+
+  - name: 'goTools : update nuclei tempaltes'
+    shell: nuclei -update-templates
+    args:
+      chdir: /home/{{ user_name }}/
+    register: nuclei
+  
+  - debug:
+      msg: "{{ nuclei.stdout }}"
+    
+    
+
+    
+  tags:
     - recon
     - goTools

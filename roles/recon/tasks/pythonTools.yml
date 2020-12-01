@@ -1,0 +1,99 @@
+---
+- block:
+
+  - name: 'pythonTools : install python3 and required dependacies'
+    become: true
+    apt:
+      update_cache: yes
+      name:
+        - python3-pip
+        - python3-dnspython
+        - pv 
+        - libcurl4-openssl-dev
+        - build-essential 
+        - libssl-dev 
+        - libffi-dev 
+        - python-dev
+
+  - name: 'pythonTools : install virtualenv and other python libraries for python3'
+    pip:
+      name: virtualenv, virtualenvwrapper, jsbeautifier, requests
+      executable: pip3
+    
+  - name: 'pythonTools :clone repos into /opt'
+    become: yes
+    git:
+      repo: "https://{{ item.repo }}.git"
+      dest: "/opt/{{ item.dest }}"
+    with_items:
+      - { repo: 'github.com/x90skysn3k/brutespray', dest: 'brutespray' }
+      - { repo: 'github.com/D4Vinci/CWFF', dest: 'CWFF' }
+      - { repo: 'github.com/devanshbatham/FavFreak', dest: 'FavFreak' }
+      - { repo: 'github.com/nsonaniya2010/SubDomainizer', dest: 'SubDomainizer' }
+
+  - name: 'pythonTools : change file permissions of pythonTools in /opt directory'
+    become: yes 
+    file: 
+      path: "{{ item }}"
+      recurse: yes
+      owner: "{{ user_name }}"
+      group: "{{ user_name }}"
+    with_items:
+      - /opt/brutespray
+      - /opt/CWFF
+      - /opt/FavFreak
+      - /opt/SubDomainizer
+
+  - name: create virtual enviroments for pythonTools
+    become: yes
+    become_user: "{{ user_name }}"
+    shell: virtualenv -p /usr/bin/python3 .
+    args:
+      chdir: "{{ item }}"
+    with_items:
+      - "/opt/brutespray"
+      - "/opt/CWFF"
+      - "/opt/FavFreak"
+      - "/opt/SubDomainizer"
+
+  - name: 'pythonTools : install miscellaneous python libraries'
+    become: yes
+    become_user: "{{ user_name }}"
+    shell: /bin/bash -ic 'source ./; pip3 install {{ item.library }}'
+    args:
+      chdir: /opt/{{ item.dir }}
+    loop:
+      - { dir: 'CWFF', library: 'requests' }
+      - { dir: 'FavFreak', library: 'mmh3' }
+
+  - name: 'pythonTools : install python tools with requirements.txt'
+    become: yes
+    become_user: "{{ user_name }}"
+    shell: /bin/bash -ic 'source ./bin/activate; pip3 install -r requirements.txt'
+    args:
+      chdir: /opt/{{ item }}
+    with_items:
+      - brutespray
+      - CWFF
+      - FavFreak
+      - SubDomainizer
+
+  - name: copy startup scripts to /usr/local/bin
+    become: true
+    template:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      owner: "{{ user_name }}"
+      group: "{{ user_name }}"
+      mode: '0755'
+    loop:
+      - {src: 'templates/brutespray.j2', dest: '/usr/local/bin/brutespray'}
+      - {src: 'templates/cwff.j2', dest: '/usr/local/bin/cwff'}
+      - {src: 'templates/favfreak.j2', dest: '/usr/local/bin/favfreak'}
+      - {src: 'templates/subdomainizer.j2', dest: '/usr/local/bin/subdomainizer'}
+
+  tags:
+    - recon
+    - pythonTools
+
+          

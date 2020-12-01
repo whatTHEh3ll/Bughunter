@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# /usr/local/go/bin/go
 #install tools
 echo "Installing go tools"
 /home/$USER/.go/bin/go get -u github.com/OJ/gobuster 

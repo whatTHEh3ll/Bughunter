@@ -2,9 +2,9 @@
 - include: amass.yml tags=recon,amass
 - include: masscan.yml tags=recon,masscan
 - include: massdns.yml tags=recon,massdns
-- include: pip.yml tags=recon,pip  
 - include: eyewitness.yml tags=recon,eyewitness
 - include: goTools.yml tags=recon,goTools
+- include: pythonTools.yml tags=recon,pythonTools
 - include: findomain.yml tags=recon,findomain
 - include: cewl.yml tags=recon,cewl
 - include: tlsscan.yml tags=recon,tlsscan
@@ -26,11 +26,7 @@
 - include: dnsgen.yml tags=recon,dnsgen
 - include: payloads.yml tags=recon,payloads
 - include: FavFreak.yml tags=recon,FavFreak
-- include: gf.yml tags=recon,gf
-- include: metabigor.yml tags=recon,metabigor
-- include: httprobe.yml tags=recon,httprobe 
-- include: assetfinder.yml tags=recon,assetfinder
-#- include: gobuster.yml tags=recon,gobuster
+
 
 
 
