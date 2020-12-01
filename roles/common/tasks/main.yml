@@ -8,7 +8,7 @@
 - include: geckodriver.yml tags=commom,geckodriver 
 - include: enviroment.yml tags=commom,enviroment
 - include: monolith.yml tags=common,monolith
-- include: python3-8.yml tags=common,python3-8
+#- include: python3-8.yml tags=common,python3-8
 - include: rust.yml tags=common,rust 
 
 

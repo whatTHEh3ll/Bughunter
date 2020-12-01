@@ -11,20 +11,28 @@
       update_cache: yes
 
   - name: 'nikto : clone repository'
+    become: yes
     git:
-      accept_hostkey: yes
-      clone: yes
-      depth: 1
-      dest: /opt/nikto
-      force: yes
       repo: https://github.com/sullo/nikto.git
+      dest: /opt/nikto
+      
+  - name: 'nitko : change premissions for /opt/nitko'
+    become: yes
+    file: 
+      path: /opt/nikto
+      recurse: yes
+      owner: "{{ user_name }}"
+      group: "{{ user_name }}"
 
   - name: 'nikto : install launcher'
+    become: yes
     template:
+      src: templates/nikto.j2
       dest: /usr/local/bin/nikto
-      mode: 0755
-      src: ../templates/nikto.sh
-
+      owner: "{{ user_name }}"
+      group: "{{ user_name }}"
+      mode: '0755'
+      
   tags:
     - web
     - nikto

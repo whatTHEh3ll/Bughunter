@@ -10,6 +10,11 @@
     apt:
       deb: /home/{{ user_name }}/google-chrome-stable_current_amd64.deb
 
+  - name: 'chromedriver : cleanup fragments'
+    file:
+      dest: /home/{{ user_name }}/google-chrome-stable_current_amd64.deb
+      state: absent
+
   tags:
     - common
     - chromedriver

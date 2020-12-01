@@ -21,6 +21,11 @@
       regexp: 'PATH=(["]*)((?!.*?/usr/local/go/bin).*?)(["]*)$'
       line: 'PATH=\1\2:/usr/local/go/bin\3'
 
+  - name: 'golang : cleanup fragments'
+    file:
+      dest: /home/{{ user_name }}/golang.tar.gz
+      state: absent
+
   tags:
     - common
     - golang

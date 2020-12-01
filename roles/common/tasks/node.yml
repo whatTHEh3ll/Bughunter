@@ -10,7 +10,6 @@
 
   - name: 'node : execute PPA setup script'
     become: yes
-    become_user: "{{ user_name }}"
     shell: bash /home/{{ user_name }}/node_setup.sh
 
   - name: 'node : install Node'

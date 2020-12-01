@@ -8,24 +8,10 @@
 - include: findomain.yml tags=recon,findomain
 - include: cewl.yml tags=recon,cewl
 - include: tlsscan.yml tags=recon,tlsscan
-- include: brutespray.yml tags=recon,brutespray
-- include: secretfinder.yml tags=recon,secretfinder
 - include: githubdorks.yml tags=recon,githubdorks
-- include: trufflehog.yml tags=recon,trufflehog 
-#- include: katana.yml tags=recon,katana  
-- include: wordscrapper.yml tags=recon,wordscrapper
-- include: dumpsterdiver.yml tags=recon,dumpsterdiver 
-#- include: interlace.yml tags=recon,interlace 
-#- include: dnsvalidator.yml tags=recon,dnsvalidator
-#- include: spiderfoot.yml tags=recon,spiderfoot 
-#- include: hosthunter.yml tags=recon,hosthunter 
-- include: ParamSpider.yml tags=recon,ParamSpider
-- include: SubDomainizer.yml tags=recon,SubDomainizer
 - include: nmap.yml tags=recon,nmap
-- include: puredns.yml tags=recon,puredns  
-- include: dnsgen.yml tags=recon,dnsgen
 - include: payloads.yml tags=recon,payloads
-- include: FavFreak.yml tags=recon,FavFreak
+
 
 
 
