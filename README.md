@@ -84,7 +84,7 @@ ansible-playbook provision.yml --vault-password-file=/home/$USER/ansible-PASSWOR
 
 
 ### Things to do.
-- [ ] theres alot to this Playbook I will improve readibity by adding with_items list to the playbook thus making it smaller
+- [x] theres alot to this Playbook I will improve readibity by adding 'with_items' list to the playbook thus making it smaller
 - [ ] create a plyabook to install Tor Bridge
 - [ ] setup proxychains with clearnet proxies
 - [ ] expeiriment with intelx api for OSINT.....
@@ -95,7 +95,7 @@ ansible-playbook provision.yml --vault-password-file=/home/$USER/ansible-PASSWOR
 [https://github.com/salesforce/jarm](https://github.com/salesforce/jarm)
 - [ ] install LeakLooker...
 [https://github.com/woj-ciech/LeakLooker](https://github.com/woj-ciech/LeakLooker)
-- [ ] install CWFF
+- [x] install CWFF
 [https://github.com/D4Vinci/CWFF](https://github.com/D4Vinci/CWFF)
 
 
