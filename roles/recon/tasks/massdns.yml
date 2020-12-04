@@ -31,6 +31,11 @@
       url: https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/subdomains-top1million-20000.txt
       dest: /home/{{ user_name }}/massdns
 
+  - name: 'massdns : download resolvers from https://github.com/d3mondev/puredns'
+    get_url:
+      url: https://raw.githubusercontent.com/d3mondev/puredns/master/resolvers.txt
+      dest: /home/{{ user_name }}/massdns
+
   tags:
     - recon
     - massdns  

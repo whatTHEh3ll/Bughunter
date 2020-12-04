@@ -2,14 +2,41 @@
 - block:
 
   - name: 'eyewitness : clone EyeWitness'
+    become: yes
     git:
       repo: https://github.com/FortyNorthSecurity/EyeWitness.git
-      dest: /home/{{ user_name }}/EyeWitness
+      dest: /opt/EyeWitness
+
+  - name: 'eyewitness : change premissions for /opt/EyeWitness'
+    become: yes
+    file:
+      path: /opt/EyeWitness
+      recurse: yes
+      owner: "{{ user_name }}"
+      group: "{{ user_name }}"
+
+  - name: 'eyewitness : create vnev for EyeWitness'
+    become: yes
+    become_user: "{{ user_name }}"
+    shell: virtualenv -p /usr/bin/python3 .
+    args:
+      chdir: /opt/EyeWitness
     
   - name: 'eyewitness : install eyewitness'
+    become: yes
+    become_user: "{{ user_name }}"
     shell: ./setup.sh
     args:
-      chdir: /home/{{ user_name }}/EyeWitness/Python/setup
+      chdir: /opt/EyeWitness/Python/setup
+
+  - name: 'eyewitness : copy EyeWitness startup script to /usr/local/bin'
+    become: true
+    template:
+      src: template/EyeWitness.j2
+      dest: /usr/local/bin/EyeWitness
+      owner: "{{ user_name }}"
+      group: "{{ user_name }}"
+      mode: '0755'
 
   tags:
     - recon

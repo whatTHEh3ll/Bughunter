@@ -40,6 +40,7 @@
       - { repo: 'github.com/codingo/Interlace', dest: 'Interlace' }
       - { repo: 'github.com/s0md3v/Arjun', dest: 'Arjun' }
       - { repo: 'github.com/securing/DumpsterDiver', dest: 'DumpsterDiver' }
+      - { repo: 'github.com/techgaun/github-dorks', dest: 'github-dorks' }
 
   - name: 'pythonTools : change file permissions of pythonTools in /opt directory'
     become: yes 
@@ -63,8 +64,9 @@
       - "/opt/Interlace"
       - "/opt/Arjun"
       - "/opt/DumpsterDiver"
+      - "/opt/github-dorks"
 
-  - name: create virtual enviroments for pythonTools
+  - name: 'pythonTools : create virtual enviroments for pythonTools'
     become: yes
     become_user: "{{ user_name }}"
     shell: virtualenv -p /usr/bin/python3 .
@@ -85,6 +87,7 @@
       - "/opt/Interlace"
       - "/opt/Arjun"
       - "/opt/DumpsterDiver"
+      - "/opt/github-dorks"
 
   - name: 'pythonTools : install miscellaneous python libraries'
     become: yes
@@ -125,8 +128,9 @@
       - "/opt/HostHunter"
       - "/opt/dnsgen"
       - "/opt/DumpsterDiver"
+      - "/opt/github-dorks"
      
-  - name: copy startup scripts to /usr/local/bin
+  - name: 'pythonTools : copy startup scripts to /usr/local/bin'
     become: true
     template:
       src: "{{ item.src }}"
@@ -147,6 +151,7 @@
       - {src: 'templates/wfuzz.j2', dest: '/usr/local/bin/wfuzz'}
       - {src: 'templates/ajurn.j2', dest: '/usr/local/bin/ajurn'}
       - {src: 'templates/DumpsterDiver.j2', dest: '/usr/local/bin/DumpsterDiver'}
+      - {src: 'templates/github-dork.j2', dest: '/usr/local/bin/github-dork'}
 
   tags:
     - recon
